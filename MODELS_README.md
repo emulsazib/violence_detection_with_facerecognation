@@ -23,7 +23,7 @@ The model files are too large to be stored in Git (ranging from 5MB to 18MB each
 
 **📦 Download All Models (ZIP)**
 
-🔗 **Google Drive Link**: [Download Models Here](YOUR_GOOGLE_DRIVE_SHARE_LINK)
+🔗 **Google Drive Link**: [Download Models Here](https://drive.google.com/file/d/1EV1OQVgnA35doD6CBJgUXV3zQELPKsGc/view?usp=share_link)
 
 > **Note**: Replace `YOUR_GOOGLE_DRIVE_SHARE_LINK` with your actual Google Drive shared link
 
