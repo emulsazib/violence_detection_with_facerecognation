@@ -1,0 +1,59 @@
+# Git attributes for proper handling of files
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Python files
+*.py text eol=lf
+*.pyw text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# Markdown and documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# YAML and config files
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+
+# HTML, CSS, JavaScript
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+
+# Images
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.ico binary
+*.svg binary
+
+# Model files (should be in .gitignore, but mark as binary anyway)
+*.pt binary
+*.pth binary
+*.h5 binary
+*.onnx binary
+*.pkl binary
+
+# Fonts
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.rar binary
+
+# Database files
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+

@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'stylesheet/style.css' %}">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="container">
+
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Violence Detection Dashboard</h1>
+            <div class="status-indicators">
+                <div class="status-indicator">
+                    <span>Application Status:</span>
+                    <div class="status-dot inactive" id="statusDot"></div>
+                    <span id="statusText">Inactive</span>
+                </div>
+                <div class="violence-indicator" id="violenceIndicator">
+                    <span>Violence Alert:</span>
+                    <div class="violence-dot inactive" id="violenceDot"></div>
+                    <span id="violenceText">Clear</span>
+                    <div class="violence-stats" id="violenceStats">
+                        <span id="violencePercentage">0.0%</span>
+                        <span id="violenceFrames">(0/100)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Large Red/Green Alert Light -->
+            <div class="alert-light-container">
+                <div class="alert-light green" id="alertLight">
+                    <div class="light-inner"></div>
+                    <div class="light-label" id="alertLightLabel">SAFE</div>
+                </div>
+            </div>
+        </div>
+
+
+         <!-- Control Panel -->
+         <div class="control-panel">
+            <div class="control-buttons">
+                <button class="btn btn-start" id="startBtn" onclick="startApplication()">
+                    <i class="fas fa-play"></i> Start Application
+                </button>
+                <button class="btn btn-stop" id="stopBtn" onclick="stopApplication()" >
+                    <i class="fas fa-stop"></i> Stop Application
+                </button>
+                <button class="btn btn-secondary" onclick="refreshCameras()">
+                    <i class="fas fa-sync"></i> Refresh Cameras
+                </button>
+                <button class="btn btn-secondary" onclick="testCameraConnection()">
+                    <i class="fas fa-wifi"></i> Test Camera
+                </button>
+                <button class="btn btn-secondary" onclick="runCameraDiagnostics()">
+                    <i class="fas fa-stethoscope"></i> Diagnostics
+                </button>
+                <button class="btn btn-primary" onclick="autoConfigureCamera()">
+                    <i class="fas fa-magic"></i> Auto-Find Camera
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Video Section -->
+            <div class="video-section">
+                <div class="camera-controls">
+                    <select class="camera-select" id="cameraSelect" onchange="switchCamera()">
+                        <option value="">Select Camera</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="fullscreenVideo()">
+                        <i class="fas fa-expand"></i> Fullscreen
+                    </button>
+                </div>
+                <div class="video-container">
+                    <video id="video" width="640" height="480" autoplay></video>
+                    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+                    <div class="video-overlay" id="videoOverlay">
+                        ESP32-CAM Live Stream
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="camera-list">
+                    <h3>Camera Management</h3>
+                    <div id="cameraList">
+                        <!-- Camera items will be populated here -->
+                    </div>
+                    <div class="add-camera-form">
+                        <h4>Add New Camera</h4>
+                        <div class="form-group">
+                            <label for="cameraName">Camera Name:</label>
+                            <input type="text" id="cameraName" placeholder="e.g., Front Door Camera">
+                        </div>
+                        <div class="form-group">
+                            <label for="cameraIP">Camera IP:</label>
+                            <input type="text" id="cameraIP" placeholder="e.g., 192.168.1.100">
+                        </div>
+                        <div class="form-group">
+                            <label for="cameraPort">Port (optional):</label>
+                            <input type="text" id="cameraPort" placeholder="e.g., 8080">
+                        </div>
+                        <button class="btn btn-add" onclick="addCamera()">Add Camera</button>
+                    </div>
+                </div>
+                <div class="logs-section">
+                    <h3>Violence Detection Logs</h3>
+                    <div class="log-controls">
+                        <button class="btn btn-secondary btn-small" onclick="refreshViolenceLogs()">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="clearViolenceLogs()">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    <div class="log-container" id="logContainer">
+                        <!-- Violence detection logs will appear here -->
+                        <div class="no-logs-message" id="noLogsMessage">
+                            No violence detected yet. Logs will appear here when violence is detected.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- New Section: Face Recognition & Violence Evidence -->
+            <div class="evidence-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-check"></i> Face Recognition & Evidence</h2>
+                    <div class="section-controls">
+                        <button class="btn btn-primary" id="runFaceRecognitionBtn" onclick="runFaceRecognition()">
+                            <i class="fas fa-search"></i> Run Face Recognition
+                        </button>
+                        <button class="btn btn-secondary" onclick="refreshEvidence()">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                        <button class="btn btn-secondary" onclick="getMilvusStats()">
+                            <i class="fas fa-database"></i> Milvus Stats
+                        </button>
+                        <button class="btn btn-warning" onclick="rebuildMilvus()">
+                            <i class="fas fa-tools"></i> Rebuild DB
+                        </button>
+                    </div>
+                </div>
+
+                <div class="evidence-content">
+                    <!-- Latest Violence Image -->
+                    <div class="evidence-card">
+                        <div class="evidence-card-header">
+                            <h3><i class="fas fa-camera"></i> Latest Captured Violence Frame</h3>
+                            <div class="evidence-card-controls">
+                                <button class="btn btn-warning btn-small" onclick="clearAllTestImages()"
+                                    title="Clear all test images">
+                                    <i class="fas fa-trash"></i> Clear All
+                                </button>
+                                <button class="btn btn-secondary btn-small" onclick="loadLatestViolenceFrame()"
+                                    title="Refresh latest frame">
+                                    <i class="fas fa-sync"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                        <div class="image-container" id="latestImageContainer">
+                            <div class="no-image-message">
+                                <i class="fas fa-image"></i>
+                                <p>No violence frames captured yet</p>
+                                <small>Images will appear here when violence is detected</small>
+                            </div>
+                        </div>
+                        <div class="image-info" id="imageInfo">
+                            <!-- Image information will be displayed here -->
+                        </div>
+                    </div>
+
+                    <!-- Face Recognition Results -->
+                    <div class="evidence-card">
+                        <h3><i class="fas fa-user-check"></i> Face Recognition Results</h3>
+                        <div class="recognition-results" id="recognitionResults">
+                            <div class="no-results-message">
+                                <i class="fas fa-search"></i>
+                                <p>No face recognition results yet</p>
+                                <small>Click "Run Face Recognition" to analyze the latest image</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Milvus Database Status -->
+                    <div class="evidence-card">
+                        <h3><i class="fas fa-database"></i> Milvus Database Status</h3>
+                        <div class="milvus-status" id="milvusStatus">
+                            <div class="loading-message">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading database status...</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+            <!-- CSRF Token for AJAX requests -->
+            {% csrf_token %}
+            <input type="hidden" id="csrfToken" value="{{ csrf_token }}">
+            <script>
+                console.log("{{ alert_message }}");
+            </script>
+            <script src="{% static 'js/App.js' %}"></script>
+</body>
+
+</html>

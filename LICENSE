@@ -1,0 +1,40 @@
+MIT License
+
+Copyright (c) 2024 Violence Detection System Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+IMPORTANT NOTICE:
+
+This software is designed for security and safety applications. Users are 
+responsible for ensuring compliance with all applicable laws and regulations 
+regarding:
+
+1. Video surveillance and monitoring
+2. Data privacy and protection (GDPR, CCPA, etc.)
+3. Facial recognition technology usage
+4. Storage and handling of biometric data
+5. Consent requirements for data collection
+
+The authors and contributors of this software are not responsible for any 
+misuse or illegal use of this system. Always obtain proper authorization 
+and consent before deploying surveillance systems.
+

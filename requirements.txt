@@ -1,0 +1,31 @@
+# Django Web Framework
+Django>=5.1.6
+djangorestframework>=3.14.0
+
+# Computer Vision and Object Detection
+cvzone==1.5.6
+ultralytics>=8.0.26
+opencv-python>=4.8.0
+Pillow>=7.1.2
+
+# Machine Learning and Scientific Computing
+numpy>=1.18.5
+scipy>=1.4.1
+torch>=2.0.0
+torchvision>=0.15.0
+matplotlib>=3.2.2
+scikit-image>=0.19.3
+
+# Face Recognition
+deepface>=0.0.79
+
+# Vector Database
+pymilvus>=2.3.0
+
+
+# Database (optional - for PostgreSQL)
+# psycopg2-binary>=2.8.0
+
+
+# Environment variables (optional)
+# python-decouple>=3.0.0
